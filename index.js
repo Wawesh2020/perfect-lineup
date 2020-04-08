@@ -1,11 +1,36 @@
 function validateLineup(lineup)
 {
+  // returns false when the lineup includes too many players from a single team
+
   const getPlayers = lineup
-    .filter(lineup => lineup === 12)
     .map(lineup => lineup.teamId)
+    .sort((a, b) => a - b)
+  let count = 0
+
+  for (let i = 0; i < getPlayers.length; i++) {
+    if (count >= 2) return false
+  }
+  // if (getPlayers[i] === getPlayers[i + 1]) count++
 
 
+  const morePlayers = lineup
+    .map(lineup => lineup.gameId)
+    .sort((a, b) => a - b)
 
+  for (let i = 0; i < morePlayers.length; i++) {
+    if (count >= 3) return false
+
+    // if (morePlayers[i] === morePlayers[i + 1]) count++ 
+  }
+
+
+  const fewPlayers = lineup
+    .map(lineup => lineup.position)
+    // .sort((a, b) => a - b) 
+
+  for (let i = 0; i < fewPlayers.length; i++) {
+    if (lineup.position != 'OF') return false
+  }
 
 
   const getSalary = lineup.map(lineup => lineup.salary)
@@ -15,8 +40,6 @@ function validateLineup(lineup)
 
   return true
 }
-
-
 
 
 module.exports = validateLineup
